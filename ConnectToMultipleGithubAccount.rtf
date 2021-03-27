@@ -1,0 +1,83 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red247\green247\blue247;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c97647\c97647\c97647;}
+\margl1440\margr1440\vieww19300\viewh11780\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Follow below steps to add multiple accounts -\
+step 1:\
+goto .ssh folder and generate ssh keys for all your github accounts\
+\
+$ cd ~/.ssh\
+$ ssh-keygen -t e25519 -C "personal_email_id"\
+  # save as id_rsa_personal\
+$ ssh-keygen -t e22519 -C "work_email_id"\
+  # save as id_rsa_work\
+\
+step 2:\
+Copy id_rsa_personal.pub and id_rsa_work.pub and add to respective github account.\
+\
+step 3:\
+create config file in .ssh folder And add below configs\
+\
+$ touch config\
+\
+# Personal account - default config\
+Host github.com-personal\
+   HostName github.com\
+   User git\
+   IdentityFile ~/.ssh/id_rsa_personal\
+# Work account\
+Host github.com-work\
+   HostName github.com\
+   User git\
+   IdentityFile ~/.ssh/id_rsa_work\
+\
+step 4:\
+create .gitconfig for personal and work directory with respective config git host names\
+\
+$ cd ~\
+$ nano ~/.gitconfig\
+\
+[user]\
+    name = personal_name\
+    email = personal_email_id\
+[includeIf "gitdir:~/work/"]\
+    path = ~/work/.gitconfig\
+\
+$ nano ~/work/.gitconfig\
+[user]\
+    name = Coder Train\
+    email = work_email_id\
+\
+step 5: \
+Add new ssh keys \
+$ cd ~/.ssh\
+\
+$ ssh-add id_rsa_personal\
+$ ssh-add id_rsa_work\
+\
+$ ssh-add -l\
+\
+step 6:\
+check configuration is right by pinging to github with below commands\
+\
+$ ssh -T github.com-personal\
+$ ssh -T github.com-work\
+\
+step 7:\
+Always clone repo by adding hostname in remote url\
+e.g. git@github.com to git@github.com-personal\
+\
+git clone git@github.com-NosaPrecious:NosaPrecious/Hello_Game.git\
+git clone git@github.com:SysAdminOkuns/hello-world.git\
+\
+Youtube REF Video: https://www.youtube.com/watch?v=lLgWWtOk7gk&t=181s&ab_channel=sagarjunnarkar\cb1 \
+\
+\cb3 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb1 \
+}
